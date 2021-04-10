@@ -1,11 +1,9 @@
 package com.david.church;
 
-import jdk.nashorn.internal.runtime.options.Option;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
@@ -20,11 +18,11 @@ public class SubTitleDesktop {
      */
     public static void main(String[] args) throws IOException {
         System.out.println("SubTile Application");
-        File outputFile = new File("/Users/david/Desktop/outputLine.txt");
-        File headFile = new File("/Users/david/Desktop/head.txt");
-        File metaFile = new File("/Users/david/Desktop/meta.txt");
+        File outputFile = new File("outputLine.txt");
+        File headFile = new File("head.txt");
+        File metaFile = new File("meta.txt");
         System.out.println("Subtitle file loading...");
-        List<SubTitleDto> subtitles = readFile(new File("/Users/david/Desktop/subTitle.txt"));
+        List<SubTitleDto> subtitles = readFile(new File("subTitle.txt"));
         subtitles.stream().forEach((dto)-> System.out.println(dto.toString()));
 
         Scanner keyboard = new Scanner(System.in);
@@ -71,8 +69,8 @@ public class SubTitleDesktop {
 
     private static List<SubTitleDto> readFile(File file) throws IOException {
        return  FileUtils.readLines(file,"UTF-8").stream()
-               .filter(l->!l.startsWith("---"))
-               .filter(l-> l.startsWith("***"))
+               .filter(l-> !l.startsWith("---"))
+               .filter(l-> !l.startsWith("***"))
                .filter((l)->l.trim().length()!=0)
                .map((l)->new SubTitleDto(l)).collect(Collectors.toList());
     }
