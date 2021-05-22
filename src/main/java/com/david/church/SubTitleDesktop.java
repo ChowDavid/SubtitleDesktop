@@ -19,7 +19,7 @@ public class SubTitleDesktop {
      * @throws IOException
      */
 
-    private static final int WIDTH=30;
+    private static final int WIDTH=35;
 
     public static void main(String[] args) throws IOException {
         System.out.println("SubTile Application");

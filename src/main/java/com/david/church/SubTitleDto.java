@@ -7,7 +7,6 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
 public class SubTitleDto {
     private int id;
     private String subtitle;
@@ -30,5 +29,13 @@ public class SubTitleDto {
             String side = "                                                               ".substring(0,both);
             subtitle = side+cells[1]+side;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "id=" + id +
+                "->" + subtitle + '\'' +
+                '}';
     }
 }
