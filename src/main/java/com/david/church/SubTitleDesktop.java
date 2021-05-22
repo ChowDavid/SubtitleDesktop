@@ -9,6 +9,8 @@ import java.util.Optional;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+import static java.lang.System.exit;
+
 public class SubTitleDesktop {
     /**
      * PingFang HK Regular 64 size
@@ -16,12 +18,21 @@ public class SubTitleDesktop {
      * @param args
      * @throws IOException
      */
+
+    private static final int WIDTH=30;
+
     public static void main(String[] args) throws IOException {
         System.out.println("SubTile Application");
         File outputFile = new File("outputLine.txt");
         File headFile = new File("head.txt");
         File metaFile = new File("meta.txt");
         System.out.println("Subtitle file loading...");
+        List<String> overSizeLine = findOverSizeLine(new File("subTitle.txt"));
+        if (!overSizeLine.isEmpty()){
+            System.out.println("Line too long found over 30. Please fix");
+            overSizeLine.forEach(l-> System.out.println(l));
+            exit(1);
+        }
         List<SubTitleDto> subtitles = readFile(new File("subTitle.txt"));
         subtitles.stream().forEach((dto)-> System.out.println(dto.toString()));
 
@@ -65,6 +76,13 @@ public class SubTitleDesktop {
 
     }
 
+    private static List<String> findOverSizeLine(File file)throws IOException {
+        return  FileUtils.readLines(file,"UTF-8").stream()
+                .filter(l-> !l.startsWith("---"))
+                .filter(l-> !l.startsWith("***"))
+                .filter((l)->l.trim().length()>WIDTH)
+                .collect(Collectors.toList());
+    }
 
 
     private static List<SubTitleDto> readFile(File file) throws IOException {
@@ -72,6 +90,6 @@ public class SubTitleDesktop {
                .filter(l-> !l.startsWith("---"))
                .filter(l-> !l.startsWith("***"))
                .filter((l)->l.trim().length()!=0)
-               .map((l)->new SubTitleDto(l)).collect(Collectors.toList());
+               .map((l)->new SubTitleDto(l,WIDTH)).collect(Collectors.toList());
     }
 }

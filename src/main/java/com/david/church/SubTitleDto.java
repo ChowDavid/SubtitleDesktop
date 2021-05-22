@@ -14,7 +14,8 @@ public class SubTitleDto {
     private String head;
     private String meta;
 
-    public SubTitleDto(String line) {
+
+    public SubTitleDto(String line,int width) {
         String[] cells = line.split("\\|");
         id = Integer.parseInt(cells[0]);
         if (cells.length==3){
@@ -24,7 +25,10 @@ public class SubTitleDto {
                 meta=cells[2];
             }
         } else {
-            subtitle = cells[1];
+            int main=cells[1].length();
+            int both = (width-main)/2;
+            String side = "                                                               ".substring(0,both);
+            subtitle = side+cells[1]+side;
         }
     }
 }
